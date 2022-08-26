@@ -16,7 +16,7 @@ const SearchResult: React.FC<ISearchResult> = ({
   return (
     <div
       {...divProps}
-      className={`flex flex-col w-5/6 max-w-screen-md space-y-1 ${className}`}
+      className={`flex flex-col max-w-screen-md space-y-1 ${className}`}
     >
       <Link href={url}>
         <a

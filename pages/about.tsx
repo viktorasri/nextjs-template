@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import PrimaryLayout from '../components/layout/primary/PrimaryLayout';
-import SidebarLayout from '../components/layout/sidebar/SidebarLayout';
+
 import styles from '../styles/Home.module.css';
 import { NextPageWithLayout } from './_app';
 
@@ -32,10 +32,5 @@ const About: NextPageWithLayout = () => {
 export default About;
 
 About.getLayout = (page: ReactElement) => {
-  return (
-    <PrimaryLayout>
-      <SidebarLayout />
-      {page}
-    </PrimaryLayout>
-  );
+  return <PrimaryLayout>{page}</PrimaryLayout>;
 };
