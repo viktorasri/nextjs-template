@@ -1,14 +1,29 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import PrimaryLayout from '../components/layout/primary/PrimaryLayout';
 import Search from '../components/utility/search/Search';
 import { NextPageWithLayout } from './_app';
 
 const Home: NextPageWithLayout = () => {
+  const { locale } = useRouter();
   return (
-    <section>
-      Logo
+    <section className="flex flex-col items-center gap-y-5 mt-12 sm:mt-36">
+      <Image
+        src="/Google.png"
+        alt="google logo"
+        width={272}
+        height={92}
+        priority
+      />
       <Search />
-      Language toggle
+      <p>
+        Google offered in:{' '}
+        <Link href="/" locale={locale === 'en' ? 'fr' : 'en'}>
+          <a className="underline text-blue-600">Francais</a>
+        </Link>
+      </p>
     </section>
   );
 };
