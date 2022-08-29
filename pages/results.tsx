@@ -1,14 +1,36 @@
+import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import PrimaryLayout from '../components/layout/primary/PrimaryLayout';
 import SearchResult from '../components/utility/search-result/SearchResult';
-import { mockSearchResultProps } from '../components/utility/search-result/SearchResult.mocks';
+import { ISearchData } from '../lib/search/types';
+import { IApiSearchResponseData } from './api/search';
 import { NextPageWithLayout } from './_app';
 
-const Results: NextPageWithLayout = () => {
+export interface IResults {
+  searchResults: ISearchData[];
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { searchTerm } = query;
+  let searchResults: IApiSearchResponseData = [];
+
+  if (searchTerm && searchTerm.length > 0) {
+    const res = await fetch(`${process.env.API_HOST}/search`, {
+      body: JSON.stringify({ searchTerm }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+    });
+    searchResults = await res.json();
+  }
+
+  return { props: { searchResults } };
+};
+
+const Results: NextPageWithLayout<IResults> = ({ searchResults }) => {
   return (
     <section className="flex flex-col items-center gap-y-5 mt-12 px-5">
-      {[...new Array(6)].map((_, idx) => (
-        <SearchResult key={idx} {...mockSearchResultProps.base} />
+      {searchResults.map((item, idx) => (
+        <SearchResult key={idx} {...item} />
       ))}
     </section>
   );
